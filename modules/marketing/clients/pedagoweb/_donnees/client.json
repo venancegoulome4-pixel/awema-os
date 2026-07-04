@@ -1,0 +1,23 @@
+{
+  "id": "pedagoweb",
+  "nom": "Pedagoweb",
+  "secteur": "Communication digitale",
+  "lieu": "Cotonou,Bénin",
+  "module": "marketing",
+  "statut": "actif",
+  "initiales": "PE",
+  "reseaux": {
+    "facebook": "",
+    "instagram": "https://www.instagram.com/pedago.web_?igsh=MTJsNWQ4N3J3ZDd3ZQ==",
+    "tiktok": "https://www.tiktok.com/@pedagowebb?_r=1&_t=ZS-97jwkmw2iQ6",
+    "linkedin": "",
+    "whatsapp": "",
+    "youtube": ""
+  },
+  "chemins": {
+    "campagne": "_donnees/campagne.json",
+    "reseaux": "_donnees/reseaux.json",
+    "revue": "../../../../outils/revue-visuels/index.html?client=pedagoweb"
+  },
+  "fb_page_id": "100069878745822"
+}
