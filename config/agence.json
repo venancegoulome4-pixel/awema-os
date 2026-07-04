@@ -1,15 +1,14 @@
 {
-  "_doc": "Configuration de TON agence. Personnalise via setup.html ou `awema setup`, puis : python3 outils/_data/build.py.",
-  "nom": "Mon Agence",
-  "nom_complet": "Mon Agence — présence en ligne",
+  "nom": "PEDAGOWEB",
+  "nom_complet": "PEDAGOWEB",
   "tagline": "Centre de pilotage",
   "slogan": "La présence en ligne de mes clients, pilotée.",
-  "initiales": "MA",
+  "initiales": "PWE",
   "langue": "fr",
-  "contact": "ton-email@exemple.com",
+  "contact": "pedagoweb1@gmail.com",
   "github": {
-    "owner": "ton-pseudo",
-    "repo": "mon-agence"
+    "owner": "venancegoulome4-pixel",
+    "repo": "awema-os"
   },
   "charte": {
     "nuit": "#0A1F44",
