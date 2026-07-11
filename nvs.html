@@ -97,6 +97,15 @@
   .panel .prose{font-family:var(--serif);font-size:18px;line-height:1.72;color:var(--ivoire)}
   .panel.before .prose{color:var(--ivoire-soft)}
   .panel .note{margin-top:auto;padding-top:18px;font-family:var(--sans);font-size:12.5px;color:var(--muted)}
+  /* score « taux de signature » en haut de chaque colonne */
+  .score{margin-bottom:20px;padding-bottom:18px;border-bottom:1px solid var(--bord)}
+  .score-label{display:block;font-family:var(--sans);font-size:11px;letter-spacing:.16em;
+    text-transform:uppercase;color:var(--muted);font-weight:600;margin-bottom:6px}
+  .score-val{font-family:var(--serif);font-weight:600;font-size:40px;line-height:1;letter-spacing:-.02em;
+    font-variant-numeric:tabular-nums}
+  .score-max{font-size:19px;color:var(--muted);font-weight:500}
+  .score--low .score-num{color:#C0563D}
+  .score--high .score-num{color:#4E9A5F}
   /* marques de « tics » (colonne gauche uniquement) */
   mark{color:var(--tic-ink);border-radius:4px;padding:.05em .2em;font-weight:500;
     box-decoration-break:clone;-webkit-box-decoration-break:clone}
@@ -216,6 +225,10 @@
     <div class="compare">
       <!-- GAUCHE : écrit par une machine, tics surlignés -->
       <article class="panel before">
+        <div class="score score--low" data-target="14">
+          <span class="score-label">Taux de signature</span>
+          <span class="score-val"><span class="score-num">14</span><span class="score-max"> / 100</span></span>
+        </div>
         <span class="tag">● Écrit par une machine</span>
         <p class="prose">
           <mark class="generique">Dans le paysage actuel du digital</mark>, <mark class="generique">il est important de noter</mark> que la régularité est la clé du succès.<br>
@@ -228,6 +241,10 @@
 
       <!-- DROITE : écrit par quelqu'un, aucun surlignage -->
       <article class="panel after">
+        <div class="score score--high" data-target="92">
+          <span class="score-label">Taux de signature</span>
+          <span class="score-val"><span class="score-num">92</span><span class="score-max"> / 100</span></span>
+        </div>
         <span class="tag">● Écrit par quelqu'un</span>
         <p class="prose">
           Le 14 janvier, j'ai failli supprimer ma page.<br>
@@ -370,6 +387,46 @@
         btn.disabled=false; btn.textContent='Rejoindre la liste d\'attente';
       });
     });
+  })();
+
+  // Compteurs « taux de signature » — montée 0 → valeur au scroll (une seule fois)
+  (function(){
+    var demo=document.querySelector('.demo');
+    var scores=document.querySelectorAll('.demo .score');
+    if(!demo||!scores.length) return;
+    var reduce=window.matchMedia&&window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+    // prefers-reduced-motion : on laisse les valeurs finales déjà présentes (14 / 92), pas d'animation.
+    if(reduce) return;
+
+    function easeOutCubic(t){ return 1-Math.pow(1-t,3); }
+    function animate(){
+      scores.forEach(function(s){
+        var target=parseInt(s.getAttribute('data-target'),10)||0;
+        var num=s.querySelector('.score-num');
+        var dur=1200, start=null;
+        function step(ts){
+          if(start===null) start=ts;
+          var p=Math.min((ts-start)/dur,1);
+          num.textContent=Math.round(easeOutCubic(p)*target);
+          if(p<1) requestAnimationFrame(step);
+          else num.textContent=target; // valeur exacte en fin d'animation
+        }
+        num.textContent='0';
+        requestAnimationFrame(step);
+      });
+    }
+
+    if('IntersectionObserver' in window){
+      var io=new IntersectionObserver(function(entries){
+        entries.forEach(function(e){
+          if(e.isIntersecting){ animate(); io.disconnect(); }
+        });
+      },{threshold:0.35});
+      io.observe(demo);
+    } else {
+      animate(); // fallback : pas d'observer → on anime au chargement
+    }
   })();
 </script>
 </body>
