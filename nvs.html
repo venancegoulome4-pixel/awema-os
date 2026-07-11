@@ -1,0 +1,376 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Signature Cognitive — retrouve ta voix dans tes textes</title>
+<meta name="description" content="L'outil qui te montre où ton texte sonne comme une machine, et te ramène ta voix. Conçu par Venance Goulome à partir de la méthode NVS.">
+<meta name="robots" content="index,follow">
+<meta property="og:title" content="Signature Cognitive — retrouve ta voix dans tes textes">
+<meta property="og:description" content="L'outil qui te montre où ton texte sonne comme une machine, et te ramène ta voix. Conçu par Venance Goulome à partir de la méthode NVS.">
+<meta property="og:type" content="website">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<!-- Serif éditoriale (titres) + sans-serif lisible (corps), contraste fort -->
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,500;0,9..144,600;0,9..144,700;1,9..144,500&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  /* ————————————————————————————————————————————————
+     DESIGN SYSTEM — Moteur de Signature Cognitive (NVS)
+     Palette :
+       --noir     #141414  fond principal
+       --ivoire            blanc cassé (texte / surfaces claires)
+       --mocha             accent secondaire
+       --orange   #C8702A  accent principal (boutons, surlignages clés)
+     Ambiance : premium, sobre, éditoriale. Beaucoup d'espace noir.
+     ———————————————————————————————————————————————— */
+  :root{
+    --noir:#141414;--noir-2:#191919;--noir-3:#101010;
+    --ivoire:#F1E9DA;--ivoire-2:#EAE0CE;--ivoire-soft:#CabFAd;
+    --muted:#9A9184;--muted-2:#6F675C;
+    --mocha:#A47864;--mocha-soft:#C29A87;
+    --orange:#C8702A;--orange-2:#E08A3E;
+    --bord:rgba(241,233,218,.12);--bord-2:rgba(241,233,218,.22);
+    /* surlignages de la démo — une couleur douce par type de « tic » */
+    --tic-generique:#F5E6A3;    /* vocabulaire générique */
+    --tic-regle3:#BBD4E8;       /* règle de trois */
+    --tic-parallel:#F0C4D0;     /* parallélisme négatif */
+    --tic-transition:#C4E0C4;   /* transition-balise */
+    --tic-aphorisme:#D8C4E8;    /* aphorisme fermé */
+    --tic-ink:#1a1205;          /* texte lisible sur pastel clair */
+    --serif:"Fraunces",Georgia,"Times New Roman",serif;
+    --sans:"Inter",system-ui,-apple-system,Segoe UI,Roboto,sans-serif;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html{scroll-behavior:smooth}
+  body{font-family:var(--sans);color:var(--ivoire);background:var(--noir);line-height:1.65;
+    -webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility}
+  ::selection{background:var(--orange);color:#141414}
+  .wrap{max-width:1080px;margin:0 auto;padding:0 24px}
+  .narrow{max-width:760px}
+  h1,h2,h3{font-family:var(--serif);font-weight:600;letter-spacing:-.015em;line-height:1.08}
+  a{color:var(--orange-2)}
+  section{padding:96px 0}
+  section+section{border-top:1px solid var(--bord)}
+  .eyebrow{font-family:var(--sans);font-size:12.5px;letter-spacing:.18em;text-transform:uppercase;
+    color:var(--mocha-soft);font-weight:600;margin-bottom:18px}
+
+  /* Placeholder de copie — visible tant que le texte n'est pas fourni */
+  .copy-ph{display:inline-block;border:1px dashed var(--bord-2);border-radius:8px;
+    padding:.35em .7em;color:var(--muted);font-family:var(--sans);font-size:.9em;font-style:italic;
+    background:rgba(241,233,218,.03);line-height:1.5}
+  .copy-ph.block{display:block}
+
+  /* Boutons */
+  .btn{display:inline-flex;align-items:center;gap:10px;font-family:var(--sans);font-weight:600;
+    font-size:15px;text-decoration:none;border:0;border-radius:999px;padding:15px 26px;cursor:pointer;
+    transition:transform .15s ease,background .2s ease}
+  .btn.primary{background:var(--orange);color:#160c04}
+  .btn.primary:hover{background:var(--orange-2);transform:translateY(-1px)}
+  .btn.ghost{background:transparent;border:1px solid var(--bord-2);color:var(--ivoire)}
+  .btn.ghost:hover{border-color:var(--ivoire);transform:translateY(-1px)}
+  .btn[disabled]{opacity:.45;cursor:not-allowed;transform:none}
+
+  /* HERO */
+  .hero{padding:120px 0 104px;position:relative;overflow:hidden}
+  .hero::after{content:"";position:absolute;inset:0;pointer-events:none;
+    background:radial-gradient(760px 420px at 22% -8%,rgba(200,112,42,.10),transparent 60%)}
+  .hero .inner{position:relative;z-index:1}
+  .hero h1{font-size:clamp(38px,6.4vw,72px);max-width:14ch}
+  .hero .sub{color:var(--ivoire-2);font-size:clamp(17px,2.2vw,21px);max-width:52ch;margin-top:26px;line-height:1.55}
+  .hero .cta{margin-top:40px;display:flex;gap:14px;flex-wrap:wrap;align-items:center}
+  .hero .hint{color:var(--muted);font-size:13.5px}
+
+  /* PROBLÈME */
+  .prob h2{font-size:clamp(28px,4.2vw,44px);max-width:20ch}
+  .prob p{color:var(--ivoire-2);font-size:clamp(16px,2vw,19px);margin-top:22px;max-width:60ch}
+
+  /* DÉMONSTRATION */
+  .demo h2{font-size:clamp(28px,4.2vw,44px);max-width:22ch}
+  .demo .sub{color:var(--muted);margin-top:14px;font-size:15.5px;max-width:60ch}
+  .compare{display:grid;grid-template-columns:1fr 1fr;gap:20px;margin-top:40px;align-items:stretch}
+  .panel{border:1px solid var(--bord);border-radius:16px;padding:26px 26px 28px;background:var(--noir-2);
+    display:flex;flex-direction:column}
+  .panel.after{border-color:rgba(200,112,42,.35);background:linear-gradient(180deg,rgba(200,112,42,.05),transparent)}
+  .panel .tag{display:inline-flex;align-items:center;gap:8px;font-family:var(--sans);font-size:12px;
+    letter-spacing:.12em;text-transform:uppercase;font-weight:600;color:var(--muted);margin-bottom:16px}
+  .panel.after .tag{color:var(--orange-2)}
+  .panel .prose{font-family:var(--serif);font-size:18px;line-height:1.72;color:var(--ivoire)}
+  .panel.before .prose{color:var(--ivoire-soft)}
+  .panel .note{margin-top:auto;padding-top:18px;font-family:var(--sans);font-size:12.5px;color:var(--muted)}
+  /* marques de « tics » (colonne gauche uniquement) */
+  mark{color:var(--tic-ink);border-radius:4px;padding:.05em .2em;font-weight:500;
+    box-decoration-break:clone;-webkit-box-decoration-break:clone}
+  mark.generique{background:var(--tic-generique)}
+  mark.regle3{background:var(--tic-regle3)}
+  mark.parallel{background:var(--tic-parallel)}
+  mark.transition{background:var(--tic-transition)}
+  mark.aphorisme{background:var(--tic-aphorisme)}
+  .legend{display:flex;gap:16px 20px;flex-wrap:wrap;margin-top:26px;font-family:var(--sans);font-size:13px;color:var(--muted)}
+  .legend span{display:inline-flex;align-items:center;gap:8px}
+  .legend i{width:14px;height:14px;border-radius:4px;display:inline-block;box-shadow:inset 0 0 0 1px rgba(0,0,0,.15)}
+  .legend .l-generique{background:var(--tic-generique)}
+  .legend .l-regle3{background:var(--tic-regle3)}
+  .legend .l-parallel{background:var(--tic-parallel)}
+  .legend .l-transition{background:var(--tic-transition)}
+  .legend .l-aphorisme{background:var(--tic-aphorisme)}
+
+  /* COMMENT ÇA MARCHE */
+  .steps{display:grid;grid-template-columns:repeat(3,1fr);gap:22px;margin-top:44px}
+  .step{border:1px solid var(--bord);border-radius:16px;padding:30px 26px;background:var(--noir-2)}
+  .step .num{font-family:var(--serif);font-size:42px;color:var(--orange);line-height:1;font-weight:600}
+  .step h3{font-size:21px;margin:16px 0 8px}
+  .step p{color:var(--muted);font-size:14.5px}
+
+  /* QUI PARLE */
+  .author{display:flex;gap:26px;align-items:flex-start;flex-wrap:wrap}
+  .author .avatar{width:76px;height:76px;border-radius:50%;flex:0 0 auto;
+    background:linear-gradient(140deg,var(--mocha),var(--orange));display:grid;place-items:center;
+    font-family:var(--serif);font-weight:600;font-size:28px;color:#160c04}
+  .author .who h2{font-size:26px}
+  .author .who .role{color:var(--mocha-soft);font-size:14px;font-weight:600;margin-top:4px;
+    font-family:var(--sans);letter-spacing:.02em}
+  .author .who p{color:var(--ivoire-2);font-size:16.5px;margin-top:16px;max-width:56ch}
+
+  /* FORMULAIRE */
+  .form-sec{background:var(--noir-3)}
+  .form-card{border:1px solid var(--bord-2);border-radius:20px;padding:40px;background:var(--noir-2);
+    max-width:640px;margin:36px auto 0}
+  .form-sec h2{font-size:clamp(26px,3.6vw,38px);text-align:center;max-width:22ch;margin:0 auto}
+  .form-sec .intro{color:var(--muted);text-align:center;margin-top:14px;font-size:15.5px;max-width:48ch;
+    margin-left:auto;margin-right:auto}
+  .field{margin-top:18px}
+  .field label{display:block;font-family:var(--sans);font-size:12.5px;letter-spacing:.04em;
+    text-transform:uppercase;color:var(--muted);margin-bottom:8px;font-weight:600}
+  .field input{width:100%;padding:14px 16px;border-radius:12px;border:1px solid var(--bord-2);
+    background:rgba(0,0,0,.35);color:var(--ivoire);font:inherit;font-size:15px}
+  .field input:focus{outline:none;border-color:var(--orange);box-shadow:0 0 0 3px rgba(200,112,42,.18)}
+  .form-card .btn.primary{width:100%;justify-content:center;margin-top:24px;font-size:16px;padding:16px}
+  .form-note{text-align:center;color:var(--muted-2);font-size:12.5px;margin-top:16px}
+  .form-err{color:#E88A8A;font-size:13.5px;margin-top:14px;text-align:center;display:none}
+  /* confirmation (sans rechargement) */
+  .confirm{display:none;text-align:center;padding:14px 0}
+  .confirm.show{display:block;animation:rise .5s ease both}
+  @keyframes rise{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
+  .confirm .check{width:70px;height:70px;border-radius:50%;margin:0 auto 20px;display:grid;place-items:center;
+    background:radial-gradient(circle at 32% 30%,rgba(200,112,42,.4),rgba(200,112,42,.08));
+    border:1px solid rgba(200,112,42,.5)}
+  .confirm .check svg{width:34px;height:34px;stroke:var(--orange-2);stroke-width:3;fill:none;
+    stroke-linecap:round;stroke-linejoin:round}
+  .confirm h3{font-size:26px}
+  .confirm p{color:var(--ivoire-2);margin-top:12px;font-size:16px}
+
+  /* PIED DE PAGE */
+  footer{padding:44px 0;border-top:1px solid var(--bord);color:var(--muted)}
+  footer .row{display:flex;justify-content:space-between;align-items:center;gap:16px;flex-wrap:wrap;font-size:13.5px}
+  footer .brand{font-family:var(--serif);font-size:17px;color:var(--ivoire);font-weight:600}
+  footer a{color:var(--muted)}footer a:hover{color:var(--ivoire)}
+
+  /* RESPONSIVE */
+  @media(max-width:760px){
+    section{padding:68px 0}
+    .hero{padding:88px 0 72px}
+    .compare{grid-template-columns:1fr}
+    .steps{grid-template-columns:1fr}
+    .form-card{padding:28px 22px}
+  }
+</style>
+</head>
+<body>
+
+<!-- ————————————————————————————— 1. HERO ————————————————————————————— -->
+<header class="hero">
+  <div class="wrap inner">
+    <p class="eyebrow">Moteur de Signature Cognitive</p>
+    <h1>Un soir, j'ai lu mon propre texte. Je n'y ai vu personne.</h1>
+    <p class="sub">Cet outil te montre l'endroit exact où ton texte cesse d'être toi. Et il te ramène ta voix.</p>
+    <div class="cta">
+      <a class="btn primary" href="#formulaire">Je veux tester en avant-première</a>
+      <span class="hint">Accès prioritaire · liste d'attente · sans engagement</span>
+    </div>
+  </div>
+</header>
+
+<main>
+
+<!-- ————————————————————————————— 2. LE PROBLÈME ————————————————————————————— -->
+<section class="prob">
+  <div class="wrap narrow">
+    <p class="eyebrow">Le problème</p>
+    <h2>Le texte était propre. Ce n'était juste pas moi.</h2>
+    <p>C'était le soir de la masterclass. Je voulais en faire un post.
+      La fatigue m'avait cloué devant ma table, le téléphone dans la main, incapable d'aligner une phrase.
+      Alors j'ai donné mes idées à ChatGPT. Il a écrit à ma place.</p>
+    <p>Le texte est arrivé. Propre. Fluide. Et je le lisais sans rien voir. Les mots défilaient, corrects,
+      et il n'y avait personne dedans. Pas une trace de moi.</p>
+    <p>C'est ce soir-là que j'ai compris. Un texte de machine ne se trahit pas par son vocabulaire.
+      Il se trahit parce qu'il n'y a personne derrière.</p>
+  </div>
+</section>
+
+<!-- ————————————————————————————— 3. LA DÉMONSTRATION ————————————————————————————— -->
+<section class="demo">
+  <div class="wrap">
+    <p class="eyebrow">La démonstration</p>
+    <h2>Écrit par une machine, écrit par quelqu'un.</h2>
+
+    <div class="compare">
+      <!-- GAUCHE : écrit par une machine, tics surlignés -->
+      <article class="panel before">
+        <span class="tag">● Écrit par une machine</span>
+        <p class="prose">
+          <mark class="generique">Dans le paysage actuel du digital</mark>, <mark class="generique">il est important de noter</mark> que la régularité est la clé du succès.<br>
+          Créer du contenu demande <mark class="regle3">de la rigueur, de la constance et de la patience</mark>.<br>
+          <mark class="parallel">Ce n'est pas une question de talent, ce n'est pas une question de chance, c'est une question de discipline.</mark><br>
+          Publier régulièrement permet <mark class="regle3">de bâtir une audience, de gagner en visibilité et de créer de la confiance</mark>.<br>
+          <mark class="transition">En somme,</mark> <mark class="aphorisme">la régularité transforme un amateur en professionnel.</mark>
+        </p>
+      </article>
+
+      <!-- DROITE : écrit par quelqu'un, aucun surlignage -->
+      <article class="panel after">
+        <span class="tag">● Écrit par quelqu'un</span>
+        <p class="prose">
+          Le 14 janvier, j'ai failli supprimer ma page.<br>
+          Trois mois de publications. Presque personne.<br>
+          Ce soir-là je fixais l'écran, le pouce au-dessus du bouton.<br>
+          Et puis un message. Une certaine Aïcha, à Lomé. Elle me disait qu'un de mes posts l'avait décidée à se lancer, elle aussi.<br>
+          Un seul message. Après trois mois.<br>
+          Je n'ai pas supprimé la page.<br>
+          Je repense souvent à ce soir-là. Combien de gens abandonnent la veille du message qui aurait tout changé ?
+        </p>
+      </article>
+    </div>
+
+    <div class="legend" aria-hidden="false">
+      <span><i class="l-generique"></i> Vocabulaire générique</span>
+      <span><i class="l-regle3"></i> Règle de trois</span>
+      <span><i class="l-parallel"></i> Parallélisme négatif</span>
+      <span><i class="l-transition"></i> Transition-balise</span>
+      <span><i class="l-aphorisme"></i> Aphorisme fermé</span>
+    </div>
+  </div>
+</section>
+
+<!-- ————————————————————————————— 4. COMMENT ÇA MARCHE ————————————————————————————— -->
+<section class="how">
+  <div class="wrap">
+    <p class="eyebrow">Comment ça marche</p>
+    <h2 style="font-size:clamp(28px,4.2vw,44px)">Trois étapes. C'est tout.</h2>
+    <div class="steps">
+      <div class="step">
+        <div class="num">1</div>
+        <h3>Tu colles ton texte</h3>
+        <p>N'importe quel texte que tu veux faire sonner comme toi.</p>
+      </div>
+      <div class="step">
+        <div class="num">2</div>
+        <h3>Il te montre où tu sonnes comme une machine</h3>
+        <p>Les tics sont surlignés, type par type, sous tes yeux.</p>
+      </div>
+      <div class="step">
+        <div class="num">3</div>
+        <h3>Il te ramène ta voix</h3>
+        <p>Les mêmes idées, mais avec ta signature.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ————————————————————————————— 5. QUI PARLE ————————————————————————————— -->
+<section class="whospeaks">
+  <div class="wrap narrow">
+    <p class="eyebrow">Qui parle</p>
+    <div class="author">
+      <div class="avatar" aria-hidden="true">VG</div>
+      <div class="who">
+        <h2>Venance Goulome</h2>
+        <div class="role">Juriste et stratège de contenu</div>
+        <p>Je passe mes journées à lire des textes et à repérer, mot après mot, l'endroit où l'auteur
+          s'efface. J'ai fini par en faire une méthode. Cet outil, c'est cette méthode, mise entre tes mains.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ————————————————————————————— 6. FORMULAIRE ————————————————————————————— -->
+<section class="form-sec" id="formulaire">
+  <div class="wrap">
+    <p class="eyebrow" style="text-align:center">Avant-première</p>
+    <h2>Je construis l'outil que j'aurais voulu avoir ce soir-là.</h2>
+    <p class="intro">Laisse ton prénom et ton email. Tu seras parmi les premiers à le tester, avant tout le monde.</p>
+
+    <div class="form-card">
+      <!-- Formspree : soumission AJAX (fetch), confirmation sans rechargement -->
+      <form id="waitlist" action="https://formspree.io/f/xykrggqr" method="POST" novalidate>
+        <div class="field">
+          <label for="prenom">Prénom</label>
+          <input id="prenom" name="prenom" type="text" autocomplete="given-name" placeholder="Ton prénom" required>
+        </div>
+        <div class="field">
+          <label for="email">Email</label>
+          <input id="email" name="email" type="email" autocomplete="email" placeholder="toi@exemple.com" required>
+        </div>
+        <button class="btn primary" type="submit" id="submitBtn">Rejoindre la liste d'attente</button>
+        <p class="form-err" id="formErr">Un souci est survenu. Réessaie dans un instant.</p>
+        <p class="form-note">Zéro spam. Désinscription en un clic. On ne s'en sert que pour te prévenir au lancement.</p>
+      </form>
+
+      <!-- Confirmation affichée sans rechargement -->
+      <div class="confirm" id="confirm" role="status" aria-live="polite">
+        <div class="check"><svg viewBox="0 0 24 24"><path d="M5 13l4 4L19 7"/></svg></div>
+        <h3>C'est noté ✦</h3>
+        <p>C'est noté, tu seras parmi les premiers à tester.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+</main>
+
+<!-- ————————————————————————————— 7. PIED DE PAGE ————————————————————————————— -->
+<footer>
+  <div class="wrap row">
+    <span class="brand">Moteur de Signature Cognitive</span>
+    <span>© 2026 Venance Goulome · <a href="mailto:contact@exemple.com">Contact</a></span>
+  </div>
+</footer>
+
+<script>
+  (function(){
+    var form=document.getElementById('waitlist');
+    var btn=document.getElementById('submitBtn');
+    var err=document.getElementById('formErr');
+    var confirm=document.getElementById('confirm');
+
+    function showConfirm(){ form.style.display='none'; confirm.classList.add('show'); }
+
+    form.addEventListener('submit',function(e){
+      e.preventDefault();
+      err.style.display='none';
+
+      // Validation minimale côté client
+      var prenom=form.prenom.value.trim();
+      var email=form.email.value.trim();
+      if(!prenom||!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)){
+        err.textContent='Renseigne ton prénom et un email valide.';
+        err.style.display='block'; return;
+      }
+
+      btn.disabled=true; btn.textContent='Un instant…';
+      fetch(form.action,{
+        method:'POST',
+        body:new FormData(form),
+        headers:{'Accept':'application/json'}
+      }).then(function(r){
+        if(r.ok){ showConfirm(); }
+        else{ err.textContent='Un souci est survenu. Réessaie dans un instant.'; err.style.display='block';
+          btn.disabled=false; btn.textContent='Rejoindre la liste d\'attente'; }
+      }).catch(function(){
+        err.textContent='Connexion impossible. Vérifie ta connexion et réessaie.'; err.style.display='block';
+        btn.disabled=false; btn.textContent='Rejoindre la liste d\'attente';
+      });
+    });
+  })();
+</script>
+</body>
+</html>
