@@ -1,0 +1,50 @@
+name: Déploiement GitHub Pages
+
+# Publie le site statique (racine du dépôt) sur GitHub Pages.
+# - Active Pages automatiquement au premier run (configure-pages enablement: true),
+#   sans avoir à toucher aux réglages du dépôt.
+# - Sert les fichiers HTML tels quels (le fichier .nojekyll à la racine désactive Jekyll).
+# Une fois déployé, nvs.html est accessible à :
+#   https://venancegoulome4-pixel.github.io/awema-os/nvs.html
+
+on:
+  # Déploie à chaque mise à jour de la branche par défaut.
+  push:
+    branches: ["main"]
+  # Permet aussi un déclenchement manuel depuis l'onglet Actions.
+  workflow_dispatch:
+
+# Droits requis par le déploiement Pages.
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+# Un seul déploiement Pages à la fois ; on ne coupe pas un déploiement en cours.
+concurrency:
+  group: pages
+  cancel-in-progress: false
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - name: Récupérer le dépôt
+        uses: actions/checkout@v4
+
+      - name: Configurer Pages (active Pages si nécessaire)
+        uses: actions/configure-pages@v5
+        with:
+          enablement: true
+
+      - name: Empaqueter le site (racine du dépôt)
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: .
+
+      - name: Déployer sur GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
