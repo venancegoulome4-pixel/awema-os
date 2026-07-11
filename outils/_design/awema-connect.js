@@ -73,7 +73,7 @@ window.AwemaConnect = (function () {
       msg('Déclenchement de « ' + (opt.syncLabel || 'la synchro') + ' »…');
       AwemaGH.ensure(function () {
         AwemaGH.runWorkflow(opt.sync, {}, true)
-          .then(function () { msg('✅ Synchro lancée — les données arrivent dans <b>~1-2 min</b>. Va voir dans le <a href="index.html" style="color:var(--ciel,#FFC94D)">Centre de pilotage</a> (rafraîchis la page).', '#34E5C4', true); })
+          .then(function () { msg('✅ Synchro lancée — les données arrivent dans <b>~1-2 min</b>. Va voir dans le <a href="awema.html" style="color:var(--ciel,#FFC94D)">Centre de pilotage</a> (rafraîchis la page).', '#34E5C4', true); })
           .catch(function (e) { msg('❌ ' + (e.message || e), '#FF7D9C'); });
       });
     };

@@ -33,7 +33,7 @@ Légende : ✅ résultat attendu · ⚠️ piège à surveiller · 🔴 bloquant
 
 ## Phase 1 — Parcours nouvelle agence (fork → site en ligne)
 
-1. Ouvrir la landing du template public (`index.html` sur la branche `main`).
+1. Ouvrir la landing du template public (`awema.html` sur la branche `main`).
    ✅ Le cockpit affiche des chiffres neutres (pas de vrai client), CTA
    « Suivre le tutoriel » visible.
 2. Ouvrir `tutoriel.html` → suivre les étapes 0→2 : compte GitHub, **Fork**,

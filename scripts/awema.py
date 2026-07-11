@@ -746,7 +746,7 @@ def cmd_serve(args):
             continue
     if not httpd:
         sys.exit("❌ Aucun port libre entre %d et %d." % (port, port + 19))
-    url = "http://127.0.0.1:%d/index.html" % port
+    url = "http://127.0.0.1:%d/awema.html" % port
     print("✅ AWEMA en local : %s" % url)
     print("   Cockpit : http://127.0.0.1:%d/outils/dashboard/index.html" % port)
     print("   (Ctrl+C pour arrêter)")
