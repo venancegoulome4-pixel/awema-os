@@ -3,12 +3,11 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<!-- SEO — remplacer par la copie définitive quand elle sera prête -->
-<title>Moteur de Signature Cognitive — Retrouve ta voix, arrête de sonner comme une machine</title>
-<meta name="description" content="[[META DESCRIPTION À INSÉRER]] — Un outil qui repère où ton texte sonne comme une machine et te ramène ta voix. Rejoins la liste d'attente pour tester en avant-première.">
+<title>Signature Cognitive — retrouve ta voix dans tes textes</title>
+<meta name="description" content="L'outil qui te montre où ton texte sonne comme une machine, et te ramène ta voix. Conçu par Venance Goulome à partir de la méthode NVS.">
 <meta name="robots" content="index,follow">
-<meta property="og:title" content="Moteur de Signature Cognitive">
-<meta property="og:description" content="Retrouve ta voix. Arrête de sonner comme une machine.">
+<meta property="og:title" content="Signature Cognitive — retrouve ta voix dans tes textes">
+<meta property="og:description" content="L'outil qui te montre où ton texte sonne comme une machine, et te ramène ta voix. Conçu par Venance Goulome à partir de la méthode NVS.">
 <meta property="og:type" content="website">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -31,10 +30,13 @@
     --mocha:#A47864;--mocha-soft:#C29A87;
     --orange:#C8702A;--orange-2:#E08A3E;
     --bord:rgba(241,233,218,.12);--bord-2:rgba(241,233,218,.22);
-    /* surlignages de la démo — une teinte douce par type de « tic » */
-    --tic-connecteur:rgba(200,170,90,.20);   --tic-connecteur-b:rgba(200,170,90,.55);
-    --tic-remplissage:rgba(196,120,140,.20); --tic-remplissage-b:rgba(196,120,140,.55);
-    --tic-impersonnel:rgba(90,160,150,.20);  --tic-impersonnel-b:rgba(90,160,150,.55);
+    /* surlignages de la démo — une couleur douce par type de « tic » */
+    --tic-generique:#F5E6A3;    /* vocabulaire générique */
+    --tic-regle3:#BBD4E8;       /* règle de trois */
+    --tic-parallel:#F0C4D0;     /* parallélisme négatif */
+    --tic-transition:#C4E0C4;   /* transition-balise */
+    --tic-aphorisme:#D8C4E8;    /* aphorisme fermé */
+    --tic-ink:#1a1205;          /* texte lisible sur pastel clair */
     --serif:"Fraunces",Georgia,"Times New Roman",serif;
     --sans:"Inter",system-ui,-apple-system,Segoe UI,Roboto,sans-serif;
   }
@@ -95,21 +97,22 @@
   .panel .prose{font-family:var(--serif);font-size:18px;line-height:1.72;color:var(--ivoire)}
   .panel.before .prose{color:var(--ivoire-soft)}
   .panel .note{margin-top:auto;padding-top:18px;font-family:var(--sans);font-size:12.5px;color:var(--muted)}
-  /* marques de « tics » (avant) */
-  mark{background:transparent;color:inherit;border-radius:4px;padding:.05em .18em;
+  /* marques de « tics » (colonne gauche uniquement) */
+  mark{color:var(--tic-ink);border-radius:4px;padding:.05em .2em;font-weight:500;
     box-decoration-break:clone;-webkit-box-decoration-break:clone}
-  mark.connecteur{background:var(--tic-connecteur);box-shadow:inset 0 -2px 0 var(--tic-connecteur-b)}
-  mark.remplissage{background:var(--tic-remplissage);box-shadow:inset 0 -2px 0 var(--tic-remplissage-b)}
-  mark.impersonnel{background:var(--tic-impersonnel);box-shadow:inset 0 -2px 0 var(--tic-impersonnel-b)}
-  /* phrase « ramenée à ta voix » (après) */
-  .panel.after .fix{background:rgba(200,112,42,.14);box-shadow:inset 0 -2px 0 rgba(200,112,42,.55);
-    border-radius:4px;padding:.05em .18em}
-  .legend{display:flex;gap:20px;flex-wrap:wrap;margin-top:26px;font-family:var(--sans);font-size:13px;color:var(--muted)}
+  mark.generique{background:var(--tic-generique)}
+  mark.regle3{background:var(--tic-regle3)}
+  mark.parallel{background:var(--tic-parallel)}
+  mark.transition{background:var(--tic-transition)}
+  mark.aphorisme{background:var(--tic-aphorisme)}
+  .legend{display:flex;gap:16px 20px;flex-wrap:wrap;margin-top:26px;font-family:var(--sans);font-size:13px;color:var(--muted)}
   .legend span{display:inline-flex;align-items:center;gap:8px}
-  .legend i{width:14px;height:14px;border-radius:4px;display:inline-block}
-  .legend .l-connecteur{background:var(--tic-connecteur);box-shadow:inset 0 0 0 1px var(--tic-connecteur-b)}
-  .legend .l-remplissage{background:var(--tic-remplissage);box-shadow:inset 0 0 0 1px var(--tic-remplissage-b)}
-  .legend .l-impersonnel{background:var(--tic-impersonnel);box-shadow:inset 0 0 0 1px var(--tic-impersonnel-b)}
+  .legend i{width:14px;height:14px;border-radius:4px;display:inline-block;box-shadow:inset 0 0 0 1px rgba(0,0,0,.15)}
+  .legend .l-generique{background:var(--tic-generique)}
+  .legend .l-regle3{background:var(--tic-regle3)}
+  .legend .l-parallel{background:var(--tic-parallel)}
+  .legend .l-transition{background:var(--tic-transition)}
+  .legend .l-aphorisme{background:var(--tic-aphorisme)}
 
   /* COMMENT ÇA MARCHE */
   .steps{display:grid;grid-template-columns:repeat(3,1fr);gap:22px;margin-top:44px}
@@ -178,8 +181,8 @@
 <header class="hero">
   <div class="wrap inner">
     <p class="eyebrow">Moteur de Signature Cognitive</p>
-    <h1><span class="copy-ph block">[[COPIE À INSÉRER — accroche (titre principal)]]</span></h1>
-    <p class="sub"><span class="copy-ph">[[COPIE À INSÉRER — promesse en une phrase (sous-titre)]]</span></p>
+    <h1>Un soir, j'ai lu mon propre texte. Je n'y ai vu personne.</h1>
+    <p class="sub">Cet outil te montre l'endroit exact où ton texte cesse d'être toi. Et il te ramène ta voix.</p>
     <div class="cta">
       <a class="btn primary" href="#formulaire">Je veux tester en avant-première</a>
       <span class="hint">Accès prioritaire · liste d'attente · sans engagement</span>
@@ -193,8 +196,14 @@
 <section class="prob">
   <div class="wrap narrow">
     <p class="eyebrow">Le problème</p>
-    <h2><span class="copy-ph block">[[COPIE À INSÉRER — titre de section]]</span></h2>
-    <p><span class="copy-ph">[[COPIE À INSÉRER — la douleur, avec l'angle vécu]]</span></p>
+    <h2>Le texte était propre. Ce n'était juste pas moi.</h2>
+    <p>C'était le soir de la masterclass. Je voulais en faire un post.
+      La fatigue m'avait cloué devant ma table, le téléphone dans la main, incapable d'aligner une phrase.
+      Alors j'ai donné mes idées à ChatGPT. Il a écrit à ma place.</p>
+    <p>Le texte est arrivé. Propre. Fluide. Et je le lisais sans rien voir. Les mots défilaient, corrects,
+      et il n'y avait personne dedans. Pas une trace de moi.</p>
+    <p>C'est ce soir-là que j'ai compris. Un texte de machine ne se trahit pas par son vocabulaire.
+      Il se trahit parce qu'il n'y a personne derrière.</p>
   </div>
 </section>
 
@@ -202,45 +211,42 @@
 <section class="demo">
   <div class="wrap">
     <p class="eyebrow">La démonstration</p>
-    <h2>Le même texte. Avant, puis avec ta voix retrouvée.</h2>
-    <p class="sub">Contenu illustratif (placeholder de même longueur des deux côtés) — le contenu exact
-      sera inséré plus tard.</p>
+    <h2>Écrit par une machine, écrit par quelqu'un.</h2>
 
     <div class="compare">
-      <!-- AVANT : sonne comme une machine, tics surlignés -->
+      <!-- GAUCHE : écrit par une machine, tics surlignés -->
       <article class="panel before">
-        <span class="tag">● Avant — ça sonne comme une machine</span>
+        <span class="tag">● Écrit par une machine</span>
         <p class="prose">
-          <mark class="connecteur">Il est important de noter que</mark> ce texte a été rédigé afin de
-          répondre au besoin exprimé. <mark class="impersonnel">Il convient de souligner</mark> que
-          chaque élément a été <mark class="remplissage">soigneusement et minutieusement</mark> pensé.
-          <mark class="connecteur">Par ailleurs</mark>, la démarche s'inscrit dans une
-          <mark class="remplissage">véritable volonté d'excellence</mark>.
-          <mark class="connecteur">En effet</mark>, <mark class="impersonnel">il est possible d'affirmer</mark>
-          que le résultat obtenu <mark class="remplissage">ne saurait décevoir</mark> le lecteur attentif.
+          <mark class="generique">Dans le paysage actuel du digital</mark>, <mark class="generique">il est important de noter</mark> que la régularité est la clé du succès.<br>
+          Créer du contenu demande <mark class="regle3">de la rigueur, de la constance et de la patience</mark>.<br>
+          <mark class="parallel">Ce n'est pas une question de talent, ce n'est pas une question de chance, c'est une question de discipline.</mark><br>
+          Publier régulièrement permet <mark class="regle3">de bâtir une audience, de gagner en visibilité et de créer de la confiance</mark>.<br>
+          <mark class="transition">En somme,</mark> <mark class="aphorisme">la régularité transforme un amateur en professionnel.</mark>
         </p>
-        <p class="note">Trois familles de tics repérées et surlignées ci-dessus.</p>
       </article>
 
-      <!-- APRÈS : voix retrouvée, corrections mises en avant -->
+      <!-- DROITE : écrit par quelqu'un, aucun surlignage -->
       <article class="panel after">
-        <span class="tag">● Après — ta voix retrouvée</span>
+        <span class="tag">● Écrit par quelqu'un</span>
         <p class="prose">
-          <span class="fix">J'ai écrit ce texte</span> pour répondre à un vrai besoin, et
-          <span class="fix">j'ai pesé chaque mot</span>. Pas par méthode : parce que le sujet compte
-          pour moi. <span class="fix">Je crois</span> que le résultat tient debout, et
-          <span class="fix">je le montre</span> plutôt que de le promettre.
-          <span class="fix">Si ça te parle</span>, tu le sentiras dès la première ligne — c'est
-          exactement là que <span class="fix">se joue</span> la différence.
+          Le 14 janvier, j'ai failli supprimer ma page.<br>
+          Trois mois de publications. Presque personne.<br>
+          Ce soir-là je fixais l'écran, le pouce au-dessus du bouton.<br>
+          Et puis un message. Une certaine Aïcha, à Lomé. Elle me disait qu'un de mes posts l'avait décidée à se lancer, elle aussi.<br>
+          Un seul message. Après trois mois.<br>
+          Je n'ai pas supprimé la page.<br>
+          Je repense souvent à ce soir-là. Combien de gens abandonnent la veille du message qui aurait tout changé ?
         </p>
-        <p class="note">Mêmes idées, ta signature en plus.</p>
       </article>
     </div>
 
     <div class="legend" aria-hidden="false">
-      <span><i class="l-connecteur"></i> Connecteurs robotiques</span>
-      <span><i class="l-remplissage"></i> Formules creuses / remplissage</span>
-      <span><i class="l-impersonnel"></i> Tournures impersonnelles</span>
+      <span><i class="l-generique"></i> Vocabulaire générique</span>
+      <span><i class="l-regle3"></i> Règle de trois</span>
+      <span><i class="l-parallel"></i> Parallélisme négatif</span>
+      <span><i class="l-transition"></i> Transition-balise</span>
+      <span><i class="l-aphorisme"></i> Aphorisme fermé</span>
     </div>
   </div>
 </section>
@@ -278,8 +284,9 @@
       <div class="avatar" aria-hidden="true">VG</div>
       <div class="who">
         <h2>Venance Goulome</h2>
-        <div class="role">[[COPIE À INSÉRER — titre / légitimité en une ligne]]</div>
-        <p><span class="copy-ph">[[COPIE À INSÉRER — positionnement (une phrase de légitimité)]]</span></p>
+        <div class="role">Juriste et stratège de contenu</div>
+        <p>Je passe mes journées à lire des textes et à repérer, mot après mot, l'endroit où l'auteur
+          s'efface. J'ai fini par en faire une méthode. Cet outil, c'est cette méthode, mise entre tes mains.</p>
       </div>
     </div>
   </div>
@@ -289,12 +296,12 @@
 <section class="form-sec" id="formulaire">
   <div class="wrap">
     <p class="eyebrow" style="text-align:center">Avant-première</p>
-    <h2><span class="copy-ph block">[[COPIE À INSÉRER — invitation (titre du formulaire)]]</span></h2>
-    <p class="intro">Prénom + email, rien de plus. Tu seras prévenu·e en priorité à l'ouverture des tests.</p>
+    <h2>Je construis l'outil que j'aurais voulu avoir ce soir-là.</h2>
+    <p class="intro">Laisse ton prénom et ton email. Tu seras parmi les premiers à le tester, avant tout le monde.</p>
 
     <div class="form-card">
-      <!-- Formspree : remplacer REMPLACER_ID par l'ID du formulaire (https://formspree.io) -->
-      <form id="waitlist" action="https://formspree.io/f/REMPLACER_ID" method="POST" novalidate>
+      <!-- Formspree : soumission AJAX (fetch), confirmation sans rechargement -->
+      <form id="waitlist" action="https://formspree.io/f/xykrggqr" method="POST" novalidate>
         <div class="field">
           <label for="prenom">Prénom</label>
           <input id="prenom" name="prenom" type="text" autocomplete="given-name" placeholder="Ton prénom" required>
@@ -347,12 +354,6 @@
       if(!prenom||!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)){
         err.textContent='Renseigne ton prénom et un email valide.';
         err.style.display='block'; return;
-      }
-
-      // Tant que Formspree n'est pas configuré, on affiche la confirmation en mode aperçu.
-      if(form.action.indexOf('REMPLACER_ID')!==-1){
-        console.warn('[NVS] Formspree non configuré — remplace REMPLACER_ID dans nvs.html. Confirmation affichée en mode aperçu.');
-        showConfirm(); return;
       }
 
       btn.disabled=true; btn.textContent='Un instant…';
