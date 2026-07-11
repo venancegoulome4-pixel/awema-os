@@ -58,7 +58,7 @@ gouvernance, ADR). **Il prime en cas de conflit.**
 ├── config/                          ← agence.json (personnalisation), ia-providers, licence, beta-seats
 ├── tests/                           ← harnais anti-régression (unittest stdlib)
 ├── .github/workflows/               ← automatisations (sync réseaux, agents IA, tests)
-└── index.html · onboarding · setup · connect-*.html …   ← pages produit (servies par GitHub Pages)
+└── awema.html · onboarding · setup · connect-*.html …   ← pages produit (servies par GitHub Pages)
 ```
 
 ---

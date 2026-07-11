@@ -28,7 +28,7 @@
 ## Cohérence des références
 | Surface | Doit dire |
 |---|---|
-| Landing `index.html` | Phase 1 complète → liste d'attente pour la Phase 2 (sur abonnement). |
+| Landing `awema.html` | Phase 1 complète → liste d'attente pour la Phase 2 (sur abonnement). |
 | `docs/11-programme-beta.md` | Conditions/prérequis de la **Phase 1** (les 20 fondateurs). |
 | `config/beta-seats.json` | Suivi des **20 places** de la Phase 1 + `liste_attente`. |
 | `liste-attente.html` / `merci.html` | Inscription **Phase 2** (futurs abonnés). |
