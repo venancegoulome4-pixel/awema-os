@@ -1,0 +1,532 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>CIAR SARL — Opérateur d'exécution en formation agricole, Borgou</title>
+<meta name="description" content="CIAR SARL déploie vos programmes de formation, d'animation et d'accompagnement agricole dans les localités du Borgou. Opérateur d'exécution pour ONG, programmes et collectivités." />
+
+<!--
+  ============================================================
+  À REMPLACER AVANT MISE EN LIGNE (cherchez « À_REMPLIR ») :
+   - Logo (bloc .brand)
+   - RCCM, IFU, adresse, téléphone, email (section conformité + footer)
+   - Lien du dossier de présentation PDF (bouton hero)
+   - action="..." du formulaire : votre identifiant Formspree
+   - Chiffres de capacité réels si vous en avez
+  ============================================================
+-->
+
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@500;600;700;800&family=Newsreader:opsz,wght@6..72,400;6..72,500;6..72,600&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet" />
+
+<style>
+  :root{
+    --noir:#0D0D0D;
+    --creme:#F5F0EB;
+    --creme-2:#ECE3D8;
+    --graphite:#3A3A3A;
+    --moka:#6B3F2A;
+    --cafe:#A0704F;
+    --hair:rgba(107,63,42,.22);
+    --hair-dark:rgba(245,240,235,.16);
+    --disp:'Archivo',system-ui,sans-serif;
+    --body:'Newsreader',Georgia,serif;
+    --mono:'IBM Plex Mono',ui-monospace,monospace;
+    --wrap:1120px;
+  }
+
+  *{box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{
+    margin:0;
+    background:var(--creme);
+    color:var(--graphite);
+    font-family:var(--body);
+    font-size:19px;
+    line-height:1.6;
+    -webkit-font-smoothing:antialiased;
+  }
+
+  .wrap{max-width:var(--wrap);margin:0 auto;padding:0 28px;}
+
+  .eyebrow{
+    font-family:var(--mono);
+    font-size:12.5px;
+    font-weight:500;
+    letter-spacing:.18em;
+    text-transform:uppercase;
+    color:var(--cafe);
+    margin:0 0 22px;
+    display:flex;align-items:center;gap:12px;
+  }
+  .eyebrow::before{
+    content:"";width:26px;height:1px;background:var(--cafe);display:inline-block;
+  }
+  section.dark .eyebrow{color:#C79B7C;}
+  section.dark .eyebrow::before{background:#C79B7C;}
+
+  h1,h2,h3{font-family:var(--disp);color:var(--noir);font-weight:800;letter-spacing:-.02em;line-height:1.04;margin:0;}
+  section.dark h1,section.dark h2,section.dark h3{color:var(--creme);}
+
+  p{margin:0 0 18px;}
+  a{color:inherit;}
+
+  /* ---------- top bar ---------- */
+  header.bar{
+    position:sticky;top:0;z-index:50;
+    background:rgba(245,240,235,.86);
+    backdrop-filter:blur(9px);
+    border-bottom:1px solid var(--hair);
+  }
+  .bar .wrap{display:flex;align-items:center;justify-content:space-between;height:66px;}
+  .brand{display:flex;align-items:center;gap:12px;font-family:var(--disp);font-weight:800;font-size:20px;letter-spacing:-.01em;color:var(--noir);text-decoration:none;}
+  .brand .mark{
+    width:34px;height:34px;border-radius:3px;background:var(--moka);color:var(--creme);
+    display:grid;place-items:center;font-size:15px;font-weight:700;font-family:var(--disp);
+  }
+  .brand small{font-family:var(--mono);font-weight:400;font-size:10.5px;letter-spacing:.14em;color:var(--cafe);text-transform:uppercase;display:block;line-height:1;margin-top:3px;}
+  .bar-cta{font-family:var(--mono);font-size:12.5px;letter-spacing:.06em;text-transform:uppercase;text-decoration:none;color:var(--noir);border:1px solid var(--noir);padding:10px 16px;border-radius:2px;transition:background .2s,color .2s;}
+  .bar-cta:hover{background:var(--noir);color:var(--creme);}
+  @media(max-width:640px){.bar-cta{display:none;}}
+
+  /* ---------- buttons ---------- */
+  .btn{
+    font-family:var(--mono);font-size:13px;letter-spacing:.06em;text-transform:uppercase;
+    text-decoration:none;display:inline-flex;align-items:center;gap:10px;
+    padding:15px 24px;border-radius:2px;cursor:pointer;border:1px solid transparent;transition:transform .15s,background .2s,color .2s,border-color .2s;
+  }
+  .btn-solid{background:var(--moka);color:var(--creme);}
+  .btn-solid:hover{background:var(--noir);transform:translateY(-1px);}
+  .btn-ghost{background:transparent;color:var(--noir);border-color:var(--noir);}
+  .btn-ghost:hover{background:var(--noir);color:var(--creme);}
+  section.dark .btn-ghost{color:var(--creme);border-color:var(--creme);}
+  section.dark .btn-ghost:hover{background:var(--creme);color:var(--noir);}
+
+  /* ---------- hero ---------- */
+  .hero{padding:96px 0 84px;position:relative;overflow:hidden;}
+  .hero h1{font-size:clamp(38px,6.4vw,74px);max-width:15ch;}
+  .hero .lede{font-size:clamp(19px,2.2vw,23px);max-width:52ch;margin:30px 0 40px;color:var(--graphite);}
+  .hero-actions{display:flex;flex-wrap:wrap;gap:14px;}
+  .hero-tag{position:absolute;right:-40px;bottom:-40px;font-family:var(--disp);font-weight:800;font-size:min(30vw,320px);line-height:.8;color:var(--creme-2);z-index:0;user-select:none;pointer-events:none;letter-spacing:-.04em;}
+  .hero .wrap{position:relative;z-index:1;}
+
+  /* ---------- generic section rhythm ---------- */
+  section{padding:88px 0;}
+  section.dark{background:var(--noir);}
+  .sec-head{max-width:60ch;margin-bottom:52px;}
+  .sec-head h2{font-size:clamp(28px,4vw,44px);}
+  .sec-head p.sub{margin-top:20px;font-size:20px;color:var(--graphite);}
+  section.dark .sec-head p.sub{color:#D8CDBF;}
+
+  /* ---------- need ---------- */
+  .need-grid{display:grid;grid-template-columns:1.1fr 1fr;gap:56px;align-items:start;}
+  .need-grid .big{font-family:var(--disp);font-weight:700;font-size:clamp(24px,3vw,34px);color:var(--creme);letter-spacing:-.02em;line-height:1.12;}
+  .need-grid .big b{color:var(--cafe);font-weight:700;}
+  .need-grid p{color:#D8CDBF;}
+  @media(max-width:760px){.need-grid{grid-template-columns:1fr;gap:28px;}}
+
+  /* ---------- capabilities ---------- */
+  .caps{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--hair);border:1px solid var(--hair);}
+  .cap{background:var(--creme);padding:34px 30px 38px;}
+  .cap .n{font-family:var(--mono);font-size:12px;color:var(--cafe);letter-spacing:.1em;}
+  .cap h3{font-size:22px;margin:16px 0 12px;font-weight:700;}
+  .cap p{font-size:17px;margin:0;color:var(--graphite);}
+  @media(max-width:860px){.caps{grid-template-columns:repeat(2,1fr);}}
+  @media(max-width:560px){.caps{grid-template-columns:1fr;}}
+
+  /* ---------- signature: couverture ---------- */
+  .cover-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-top:8px;}
+  .commune{
+    border:1px solid var(--hair-dark);border-radius:2px;padding:22px 18px;
+    display:flex;flex-direction:column;gap:8px;transition:border-color .2s,background .2s,transform .2s;
+  }
+  .commune:hover{border-color:var(--cafe);background:rgba(160,112,79,.08);transform:translateY(-2px);}
+  .commune .idx{font-family:var(--mono);font-size:11px;color:var(--cafe);letter-spacing:.12em;}
+  .commune .nm{font-family:var(--disp);font-weight:700;font-size:20px;color:var(--creme);letter-spacing:-.01em;}
+  .commune .st{font-family:var(--mono);font-size:11px;color:#8f8577;letter-spacing:.04em;}
+  .cover-note{margin-top:40px;max-width:56ch;color:#D8CDBF;}
+  @media(max-width:820px){.cover-grid{grid-template-columns:repeat(2,1fr);}}
+
+  /* ---------- process ---------- */
+  .steps{display:grid;grid-template-columns:repeat(4,1fr);gap:0;border-top:1px solid var(--hair);}
+  .step{padding:32px 26px 20px;border-right:1px solid var(--hair);}
+  .step:last-child{border-right:none;}
+  .step .num{font-family:var(--mono);font-size:13px;color:var(--cafe);letter-spacing:.1em;margin-bottom:20px;}
+  .step h3{font-size:21px;font-weight:700;margin-bottom:12px;}
+  .step p{font-size:16.5px;color:var(--graphite);margin:0;}
+  @media(max-width:820px){.steps{grid-template-columns:1fr 1fr;}.step:nth-child(2){border-right:none;}}
+  @media(max-width:520px){.steps{grid-template-columns:1fr;}.step{border-right:none;border-bottom:1px solid var(--hair);}}
+
+  /* ---------- conformité ---------- */
+  .conf-grid{display:grid;grid-template-columns:1fr 1fr;gap:48px;align-items:center;}
+  .conf-list{list-style:none;margin:0;padding:0;}
+  .conf-list li{padding:20px 0;border-bottom:1px solid var(--hair);display:flex;gap:18px;align-items:baseline;}
+  .conf-list li:first-child{border-top:1px solid var(--hair);}
+  .conf-list .k{font-family:var(--mono);font-size:12px;color:var(--cafe);letter-spacing:.08em;min-width:26px;}
+  .conf-list .v{font-size:18px;color:var(--graphite);}
+  .conf-list .v b{color:var(--noir);font-weight:600;font-family:var(--disp);}
+  @media(max-width:760px){.conf-grid{grid-template-columns:1fr;gap:28px;}}
+
+  /* ---------- capacity band ---------- */
+  .band{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:var(--hair-dark);border:1px solid var(--hair-dark);}
+  .band .cell{background:var(--noir);padding:36px 26px;}
+  .band .fig{font-family:var(--disp);font-weight:800;font-size:clamp(30px,4vw,46px);color:var(--creme);letter-spacing:-.02em;line-height:1;}
+  .band .fig.word{color:var(--cafe);font-size:clamp(22px,2.6vw,30px);}
+  .band .lab{font-family:var(--mono);font-size:12px;color:#9a8f80;letter-spacing:.05em;margin-top:14px;line-height:1.4;}
+  @media(max-width:820px){.band{grid-template-columns:1fr 1fr;}}
+
+  /* ---------- form ---------- */
+  .form-grid{display:grid;grid-template-columns:.85fr 1.15fr;gap:56px;align-items:start;}
+  form{display:grid;gap:18px;}
+  .row{display:grid;gap:18px;grid-template-columns:1fr 1fr;}
+  .field{display:flex;flex-direction:column;gap:7px;}
+  .field.full{grid-column:1/-1;}
+  label{font-family:var(--mono);font-size:12px;letter-spacing:.06em;text-transform:uppercase;color:var(--cafe);}
+  input,select,textarea{
+    font-family:var(--body);font-size:17px;color:var(--noir);background:var(--creme);
+    border:1px solid var(--hair);border-radius:2px;padding:13px 14px;width:100%;transition:border-color .2s,box-shadow .2s;
+  }
+  input:focus,select:focus,textarea:focus{outline:none;border-color:var(--moka);box-shadow:0 0 0 3px rgba(107,63,42,.14);}
+  textarea{resize:vertical;min-height:120px;}
+  .form-msg{font-family:var(--mono);font-size:13px;letter-spacing:.03em;padding:14px 16px;border-radius:2px;display:none;}
+  .form-msg.ok{display:block;background:rgba(107,63,42,.1);color:var(--moka);border:1px solid var(--hair);}
+  .form-msg.err{display:block;background:rgba(160,60,40,.08);color:#8a3b2a;border:1px solid rgba(160,60,40,.25);}
+  .form-aside p{color:var(--graphite);}
+  .form-aside .contact-line{font-family:var(--mono);font-size:14px;color:var(--moka);margin-top:8px;}
+  @media(max-width:820px){.form-grid{grid-template-columns:1fr;gap:32px;}.row{grid-template-columns:1fr;}}
+
+  /* ---------- footer ---------- */
+  footer{background:var(--noir);color:#B7AC9D;padding:64px 0 44px;border-top:1px solid var(--hair-dark);}
+  .foot-grid{display:flex;justify-content:space-between;gap:40px;flex-wrap:wrap;}
+  footer .brand{color:var(--creme);}
+  footer .fcol h4{font-family:var(--mono);font-size:12px;letter-spacing:.1em;text-transform:uppercase;color:var(--cafe);margin:0 0 14px;font-weight:500;}
+  footer .fcol p{font-size:15px;margin:0 0 6px;color:#B7AC9D;}
+  .foot-base{margin-top:48px;padding-top:22px;border-top:1px solid var(--hair-dark);font-family:var(--mono);font-size:12px;letter-spacing:.04em;color:#7d7365;display:flex;justify-content:space-between;flex-wrap:wrap;gap:12px;}
+
+  /* ---------- reveal ---------- */
+  .reveal{opacity:0;transform:translateY(18px);transition:opacity .7s ease,transform .7s ease;}
+  .reveal.in{opacity:1;transform:none;}
+  @media(prefers-reduced-motion:reduce){
+    *{scroll-behavior:auto!important;}
+    .reveal{opacity:1;transform:none;transition:none;}
+    .btn:hover,.commune:hover{transform:none;}
+  }
+  :focus-visible{outline:2px solid var(--cafe);outline-offset:2px;}
+</style>
+</head>
+<body>
+
+<header class="bar">
+  <div class="wrap">
+    <a class="brand" href="#top">
+      <span class="mark">C</span>
+      <span>CIAR SARL<small>Innovation Agricole &amp; Rurale</small></span>
+    </a>
+    <a class="bar-cta" href="#contact">Discutons de votre programme</a>
+  </div>
+</header>
+
+<a id="top"></a>
+
+<!-- HERO -->
+<section class="hero">
+  <span class="hero-tag" aria-hidden="true">CIAR</span>
+  <div class="wrap">
+    <p class="eyebrow reveal">Opérateur d'exécution · Département du Borgou</p>
+    <h1 class="reveal">La formation agricole se joue dans les localités. C'est là que nous travaillons.</h1>
+    <p class="lede reveal">CIAR SARL déploie vos programmes de formation, d'animation et d'accompagnement agricole sur le terrain, commune par commune, avec un réseau de formateurs de proximité et un reporting que vos bailleurs peuvent vérifier.</p>
+    <div class="hero-actions reveal">
+      <a class="btn btn-solid" href="#contact">Discutons de votre programme</a>
+      <!-- À_REMPLIR : lien du dossier PDF -->
+      <a class="btn btn-ghost" href="#" download>Dossier de présentation</a>
+    </div>
+  </div>
+</section>
+
+<!-- LE BESOIN -->
+<section class="dark">
+  <div class="wrap">
+    <p class="eyebrow reveal">Pourquoi un opérateur local</p>
+    <div class="need-grid">
+      <div class="big reveal">Un programme peut être bien financé et bien conçu. Il ne réussit que si <b>quelqu'un atteint les villages</b>, mobilise les bons formateurs, tient la qualité et documente ce qui s'est réellement passé.</div>
+      <div class="reveal">
+        <p>C'est précisément ce dernier kilomètre qui manque à beaucoup d'interventions. Le siège décide, mais l'exécution se perd entre la ville et les communautés.</p>
+        <p>CIAR occupe cet espace. Nous sommes l'opérateur qui transforme vos objectifs en sessions tenues, en présences signées et en données remontées.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CE QUE NOUS EXÉCUTONS -->
+<section>
+  <div class="wrap">
+    <div class="sec-head reveal">
+      <p class="eyebrow">Ce que nous exécutons</p>
+      <h2>Des prestations pensées comme des livrables de programme.</h2>
+    </div>
+    <div class="caps">
+      <div class="cap reveal"><div class="n">01</div><h3>Formation de terrain</h3><p>Sessions pratiques dans les localités, sur vos modules ou les nôtres.</p></div>
+      <div class="cap reveal"><div class="n">02</div><h3>Animation et sensibilisation</h3><p>Mobilisation des groupements, coopératives et populations cibles.</p></div>
+      <div class="cap reveal"><div class="n">03</div><h3>Accompagnement de projets</h3><p>Du montage à l'installation des jeunes agri-entrepreneurs.</p></div>
+      <div class="cap reveal"><div class="n">04</div><h3>Ferme-école et démonstration</h3><p>Un dispositif réel pour former par la pratique, pas seulement en salle.</p></div>
+      <div class="cap reveal"><div class="n">05</div><h3>Structuration de coopératives</h3><p>Organisation, gouvernance et mise en conformité des groupements.</p></div>
+      <div class="cap reveal"><div class="n">06</div><h3>Suivi et reporting</h3><p>Feuilles de présence, données et rapports exploitables pour vos bailleurs.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- SIGNATURE : COUVERTURE -->
+<section class="dark">
+  <div class="wrap">
+    <div class="sec-head reveal">
+      <p class="eyebrow">Couverture · Borgou</p>
+      <h2>Huit communes. Un réseau de proximité.</h2>
+    </div>
+    <div class="cover-grid">
+      <div class="commune reveal"><span class="idx">B/01</span><span class="nm">Parakou</span><span class="st">Siège · base d'opérations</span></div>
+      <div class="commune reveal"><span class="idx">B/02</span><span class="nm">Tchaourou</span><span class="st">Zone d'intervention</span></div>
+      <div class="commune reveal"><span class="idx">B/03</span><span class="nm">N'Dali</span><span class="st">Zone d'intervention</span></div>
+      <div class="commune reveal"><span class="idx">B/04</span><span class="nm">Nikki</span><span class="st">Zone d'intervention</span></div>
+      <div class="commune reveal"><span class="idx">B/05</span><span class="nm">Kalalé</span><span class="st">Zone d'intervention</span></div>
+      <div class="commune reveal"><span class="idx">B/06</span><span class="nm">Pèrèrè</span><span class="st">Zone d'intervention</span></div>
+      <div class="commune reveal"><span class="idx">B/07</span><span class="nm">Bembèrèkè</span><span class="st">Zone d'intervention</span></div>
+      <div class="commune reveal"><span class="idx">B/08</span><span class="nm">Sinendé</span><span class="st">Zone d'intervention</span></div>
+    </div>
+    <p class="cover-note reveal">Notre ancrage nous permet de mobiliser des formateurs qui parlent la langue, connaissent les usages et restent joignables après la session. La proximité n'est pas un argument. C'est la condition d'un programme qui tient sur la durée.</p>
+  </div>
+</section>
+
+<!-- PROCESS -->
+<section>
+  <div class="wrap">
+    <div class="sec-head reveal">
+      <p class="eyebrow">Comment nous collaborons</p>
+      <h2>De votre cahier des charges au rapport final.</h2>
+    </div>
+    <div class="steps">
+      <div class="step reveal"><div class="num">01 — Cadrage</div><h3>Nous cadrons la mission</h3><p>Objectifs, zone, public, calendrier et indicateurs, définis avec vous.</p></div>
+      <div class="step reveal"><div class="num">02 — Déploiement</div><h3>Nous allons sur le terrain</h3><p>Mobilisation des formateurs et animation des sessions dans les localités.</p></div>
+      <div class="step reveal"><div class="num">03 — Suivi qualité</div><h3>Nous contrôlons</h3><p>Présence, qualité pédagogique et satisfaction des bénéficiaires.</p></div>
+      <div class="step reveal"><div class="num">04 — Reporting</div><h3>Nous vous livrons les données</h3><p>Rapports et pièces conformes aux exigences de votre financement.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- CONFORMITÉ -->
+<section class="dark">
+  <div class="wrap">
+    <div class="conf-grid">
+      <div class="reveal">
+        <p class="eyebrow">Conformité</p>
+        <h2>Un partenaire que votre service financier peut valider.</h2>
+        <p style="margin-top:22px;color:#D8CDBF;">La sélection d'un opérateur passe par une vérification. Nous la préparons pour vous.</p>
+      </div>
+      <ul class="conf-list reveal">
+        <li><span class="k">01</span><span class="v"><b>SARL immatriculée</b> · RCCM et IFU à jour <!-- À_REMPLIR : n° RCCM / IFU --></span></li>
+        <li><span class="k">02</span><span class="v"><b>Contrats conformes</b> au Code du travail béninois</span></li>
+        <li><span class="k">03</span><span class="v"><b>Charte qualité</b> encadrant chaque formateur de terrain</span></li>
+        <li><span class="k">04</span><span class="v"><b>Traçabilité complète</b> des interventions et des présences</span></li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- CAPACITÉ -->
+<section class="dark" style="padding-top:0;">
+  <div class="wrap">
+    <div class="band reveal">
+      <div class="cell"><div class="fig">08</div><div class="lab">communes couvertes dans le Borgou</div></div>
+      <div class="cell"><div class="fig word">Réseau</div><div class="lab">de formateurs de terrain mobilisables</div></div>
+      <div class="cell"><div class="fig word">Modules</div><div class="lab">adaptables à votre cahier des charges</div></div>
+      <div class="cell"><div class="fig word">Reporting</div><div class="lab">conforme aux exigences des bailleurs</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section id="contact">
+  <div class="wrap">
+    <div class="form-grid">
+      <div class="form-aside reveal">
+        <p class="eyebrow">Prendre contact</p>
+        <h2 style="font-size:clamp(28px,4vw,40px);">Discutons de votre programme.</h2>
+        <p style="margin-top:22px;">Dites-nous ce que vous voulez déployer dans le Borgou. Nous revenons vers vous avec une proposition d'exécution.</p>
+        <!-- À_REMPLIR : email et téléphone réels -->
+        <p class="contact-line">contact@ciar-sarl.bj</p>
+        <p class="contact-line">+229 XX XX XX XX</p>
+        <p class="contact-line">Parakou · Département du Borgou · Bénin</p>
+      </div>
+
+      <div class="reveal">
+        <!-- À_REMPLIR : remplacez YOUR_FORM_ID par votre identifiant Formspree -->
+        <form id="ciarForm" action="https://formspree.io/f/YOUR_FORM_ID" method="POST" novalidate>
+          <div class="row">
+            <div class="field">
+              <label for="nom">Nom et prénom</label>
+              <input id="nom" name="nom" type="text" autocomplete="name" required />
+            </div>
+            <div class="field">
+              <label for="org">Organisation</label>
+              <input id="org" name="organisation" type="text" autocomplete="organization" />
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="field">
+              <label for="email">Email</label>
+              <input id="email" name="email" type="email" autocomplete="email" required />
+            </div>
+            <div class="field">
+              <label for="tel">Téléphone</label>
+              <input id="tel" name="telephone" type="tel" autocomplete="tel" />
+            </div>
+          </div>
+
+          <div class="field full">
+            <label for="type">Type de partenaire</label>
+            <select id="type" name="type">
+              <option value="">Sélectionnez…</option>
+              <option>ONG / Association</option>
+              <option>Programme / Projet de développement</option>
+              <option>Collectivité / Administration</option>
+              <option>Coopérative / Groupement</option>
+              <option>Entreprise / Secteur privé</option>
+              <option>Autre</option>
+            </select>
+          </div>
+
+          <div class="field full">
+            <label for="message">Votre programme</label>
+            <textarea id="message" name="message" placeholder="Décrivez ce que vous souhaitez déployer : objectifs, zone, public cible, calendrier…" required></textarea>
+          </div>
+
+          <div class="form-msg" id="formMsg" role="status" aria-live="polite"></div>
+
+          <div class="field full">
+            <button class="btn btn-solid" type="submit">Envoyer la demande</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="wrap">
+    <div class="foot-grid">
+      <div class="fcol">
+        <a class="brand" href="#top" style="margin-bottom:14px;">
+          <span class="mark">C</span>
+          <span>CIAR SARL<small>Innovation Agricole &amp; Rurale</small></span>
+        </a>
+        <p style="max-width:34ch;">Opérateur d'exécution en formation, animation et accompagnement agricole dans le département du Borgou.</p>
+      </div>
+
+      <div class="fcol">
+        <h4>Coordonnées</h4>
+        <!-- À_REMPLIR : coordonnées réelles -->
+        <p>Parakou, Borgou · Bénin</p>
+        <p>contact@ciar-sarl.bj</p>
+        <p>+229 XX XX XX XX</p>
+      </div>
+
+      <div class="fcol">
+        <h4>Navigation</h4>
+        <p><a href="#top" style="text-decoration:none;">Accueil</a></p>
+        <p><a href="#contact" style="text-decoration:none;">Prendre contact</a></p>
+      </div>
+
+      <div class="fcol">
+        <h4>Conformité</h4>
+        <!-- À_REMPLIR : n° RCCM / IFU -->
+        <p>RCCM : À_REMPLIR</p>
+        <p>IFU : À_REMPLIR</p>
+      </div>
+    </div>
+
+    <div class="foot-base">
+      <span>© <span id="year">2026</span> CIAR SARL. Tous droits réservés.</span>
+      <span>Innovation Agricole &amp; Rurale · Borgou, Bénin</span>
+    </div>
+  </div>
+</footer>
+
+<script>
+  // Année dynamique
+  document.getElementById('year').textContent = new Date().getFullYear();
+
+  // Révélation au défilement
+  (function(){
+    var els = document.querySelectorAll('.reveal');
+    if(!('IntersectionObserver' in window)){
+      els.forEach(function(el){ el.classList.add('in'); });
+      return;
+    }
+    var io = new IntersectionObserver(function(entries){
+      entries.forEach(function(e){
+        if(e.isIntersecting){
+          e.target.classList.add('in');
+          io.unobserve(e.target);
+        }
+      });
+    }, { threshold:.12, rootMargin:'0px 0px -8% 0px' });
+    els.forEach(function(el){ io.observe(el); });
+  })();
+
+  // Envoi du formulaire (Formspree via fetch, sans rechargement)
+  (function(){
+    var form = document.getElementById('ciarForm');
+    var msg = document.getElementById('formMsg');
+    if(!form) return;
+
+    form.addEventListener('submit', function(ev){
+      ev.preventDefault();
+      msg.className = 'form-msg';
+      msg.textContent = '';
+
+      if(!form.checkValidity()){
+        msg.className = 'form-msg err';
+        msg.textContent = 'Merci de renseigner les champs obligatoires.';
+        form.reportValidity();
+        return;
+      }
+
+      var action = form.getAttribute('action') || '';
+      if(action.indexOf('YOUR_FORM_ID') !== -1){
+        msg.className = 'form-msg err';
+        msg.textContent = 'Formulaire non configuré : renseignez votre identifiant Formspree dans action="…".';
+        return;
+      }
+
+      var btn = form.querySelector('button[type="submit"]');
+      var original = btn ? btn.textContent : '';
+      if(btn){ btn.disabled = true; btn.textContent = 'Envoi…'; }
+
+      fetch(action, {
+        method: 'POST',
+        body: new FormData(form),
+        headers: { 'Accept': 'application/json' }
+      }).then(function(res){
+        if(res.ok){
+          form.reset();
+          msg.className = 'form-msg ok';
+          msg.textContent = 'Merci. Votre demande a bien été envoyée — nous revenons vers vous rapidement.';
+        } else {
+          msg.className = 'form-msg err';
+          msg.textContent = "L'envoi a échoué. Réessayez ou écrivez-nous directement par email.";
+        }
+      }).catch(function(){
+        msg.className = 'form-msg err';
+        msg.textContent = "Problème de connexion. Réessayez ou écrivez-nous directement par email.";
+      }).finally(function(){
+        if(btn){ btn.disabled = false; btn.textContent = original; }
+      });
+    });
+  })();
+</script>
+
+</body>
+</html>
