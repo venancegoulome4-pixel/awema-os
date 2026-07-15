@@ -360,8 +360,12 @@
       </div>
 
       <div class="reveal">
-        <!-- À_REMPLIR : remplacez YOUR_FORM_ID par votre identifiant Formspree -->
-        <form id="ciarForm" action="https://formspree.io/f/YOUR_FORM_ID" method="POST" novalidate>
+        <!-- Endpoint Formspree configuré -->
+        <form id="ciarForm" action="https://formspree.io/f/mbdnlqyy" method="POST" novalidate>
+          <!-- Champs spéciaux Formspree : objet de l'email + anti-spam (honeypot) -->
+          <input type="hidden" name="_subject" value="Nouvelle demande — site CIAR SARL" />
+          <input type="text" name="_gotcha" tabindex="-1" autocomplete="off" style="position:absolute;left:-9999px;" aria-hidden="true" />
+
           <div class="row">
             <div class="field">
               <label for="nom">Nom et prénom</label>
